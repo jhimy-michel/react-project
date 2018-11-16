@@ -6,7 +6,23 @@ const UserSchema = mongoose.Schema({
         unique: true,
         required: true
     },
-    password:String
+    password:String,
+    desc:String,
+    bio:String,
+    email:String,
+    tumbnail:String,
+    posts:{
+        type:[],
+        default:[]
+    },
+    following:{
+        type:[],
+        default:[]
+    },
+    followers:{
+        type:[],
+        default:[]
+    }
 });
 
 const UserModel = mongoose.model('User',UserSchema);

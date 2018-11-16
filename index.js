@@ -7,8 +7,15 @@ mongoose.Promise = global.Promise;
 
 const express = require('express');
 
-import typeDefs from './schema';
-import resolvers from './resolver';
+/* import typeDefs from './types/users';
+import resolvers from './resolvers/users'; */
+
+//--- uniendo las carpetas types y resolvers
+import path  from 'path';
+import {fileLoader,mergeTypes,mergeResolvers} from 'merge-graphql-schemas';
+const typeDefs = mergeTypes(fileLoader(path.join(__dirname,'./types')));
+const resolvers = mergeResolvers(fileLoader(path.join(__dirname,'./resolvers')));
+
 
 const PORT=4000;
 const app = express();
@@ -19,7 +26,10 @@ const schema = makeExecutableSchema({
 const server = new ApolloServer({
     schema,
     context:{
-        models
+        models,
+        user:{
+            _id:1,username:"jhimy"
+        }
     }
 });
 server.applyMiddleware({app});
