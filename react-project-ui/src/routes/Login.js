@@ -1,8 +1,14 @@
 import React from 'react';
 import {Grid, Image} from 'semantic-ui-react';
+import {graphql} from 'react-apollo';
+
+//utils
+import queries from '../utils/queries';
+//components
 import Signin from './login/Signin';
 import Signup from './login/Signup';
-import LostPassword from './login/LostPassword';
+//import LostPassword from './login/LostPassword';
+
 const styles={
     grid:{
         height:'100%',
@@ -35,17 +41,24 @@ class Login extends React.Component{
     handleLogin=(e,args)=>{
         console.log(args);
     }
+    handleRegister= async(e,args)=>{
+        console.log(args);
+        const response = await this.props.mutate ({
+            variables: args
+        })
+        console.log('Graphql response:',response);
+    }
     render(){
         const {showLogin,showRegister,showLostPassword} = this.state;
         return(
                 <Grid verticalAlign="middle" centered columns={2} style={styles.grid} >
                     <Grid.Row>
                         <Grid.Column>
-                            <Image fluid src='images/fondo.jpg'/>
+                            <Image fluid src='images/fondo.jpg' alt="fondo"/>
                         </Grid.Column>
                         <Grid.Column>
                             {showLogin && <Signin styles={styles} handleClick={this.showRegister} handleSubmit={this.handleLogin}></Signin>}
-                            {showRegister && <Signup styles={styles} handleClick={this.showLogin}></Signup>}
+                            {showRegister && <Signup styles={styles} handleClick={this.showLogin} handleSubmit={this.handleRegister}></Signup>}
                             {/*showLostPassword && <LostPassword styles={styles}></LostPassword>*/}
                         </Grid.Column>
                     </Grid.Row>
@@ -53,4 +66,4 @@ class Login extends React.Component{
         )
     }
 }
-export default Login;
+export default graphql(queries.mutation.createUser) (Login);

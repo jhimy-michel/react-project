@@ -9,7 +9,7 @@ export default ({styles,handleClick, handleSubmit})=>{
     return (
         <div>
             <div style={styles.box}>
-                <img src='images/logo.png'/>
+                <img src='images/logo.png' alt="logo"/>
                 <Form onSubmit={(e)=> handleSubmit(e,args)}>
                     <Form.Field>
                         <Form.Input name="email" placeholder='User name' onChange={handleChange}></Form.Input>
@@ -25,7 +25,7 @@ export default ({styles,handleClick, handleSubmit})=>{
                 </Form>
             </div>
             <div style={styles.box}>
-                No tienes una cuenta? <a href="" onClick={handleClick}>Registrate</a>
+                No tienes una cuenta? <a href="#" onClick={handleClick}>Registrate</a>
             </div>
         </div>
     )

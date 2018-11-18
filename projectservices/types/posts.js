@@ -2,10 +2,10 @@ export default`
     type Post{
         _id:ID!
         desc:String
-        by:UserShort
+        by:User
         photo:String
-        likedBy:[UserShort]
-        comments:[UserShort]
+        likedBy:[User]
+        comments:[User]
         createdAt:String
     }
     type Query{

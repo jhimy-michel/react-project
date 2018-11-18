@@ -2,11 +2,9 @@ import React from 'react';
 import {
     BrowserRouter as Router,
     Route,
-    Link,
     Switch,
 } from 'react-router-dom';
 import Home from './Home';
-import ToolBar from '../components/ToolBar';
 import Login from './Login';
 
 import 'semantic-ui-css/semantic.min.css';
