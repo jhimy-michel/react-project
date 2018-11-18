@@ -7,13 +7,17 @@ import {
 } from 'react-router-dom';
 import Home from './Home';
 import ToolBar from '../components/ToolBar';
+import Login from './Login';
 
-const Register =()=>[<ToolBar></ToolBar>,<h1>Register</h1>] ;
+import 'semantic-ui-css/semantic.min.css';
+import '../css/main.css';
+
+
 export default ()=>(
     <Router>
         <Switch>
             <Route path="/" exact component={Home}></Route>
-            <Route path="/register" exact component={Register}></Route>
+            <Route path="/login" exact component={Login}></Route>
         </Switch>
     </Router>
 )
