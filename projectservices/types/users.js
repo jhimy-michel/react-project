@@ -15,9 +15,11 @@ export default`
     }
     type Response{
         success:Boolean!
+        token: String
         errors:[Error]
     }
     type Mutation{
         createUser(username:String!,password:String!):Response!
+        login(username:String!,password:String!):Response!
     }
 `;

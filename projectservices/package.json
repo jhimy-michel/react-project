@@ -22,6 +22,7 @@
     "express": "^4.16.4",
     "graphql": "^14.0.2",
     "graphql-tools": "^4.0.3",
+    "jsonwebtoken": "^8.4.0",
     "merge-graphql-schemas": "^1.5.8",
     "mongoose": "^5.3.12",
     "mongoose-validator": "^2.1.0",

@@ -18,6 +18,7 @@ const resolvers = mergeResolvers(fileLoader(path.join(__dirname,'./resolvers')))
 
 
 const PORT=4000;
+const SECRET ="asdascregihjnlasnuhcxni";
 const app = express();
 const schema = makeExecutableSchema({
     typeDefs,
@@ -27,6 +28,7 @@ const server = new ApolloServer({
     schema,
     context:{
         models,
+        SECRET,
         user:{
             _id:1,username:"jhimy"
         }
