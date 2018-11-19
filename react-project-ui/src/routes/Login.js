@@ -1,6 +1,6 @@
 import React from 'react';
 import {Grid, Image} from 'semantic-ui-react';
-import {graphql} from 'react-apollo';
+import {graphql,compose} from 'react-apollo';
 
 //utils
 import queries from '../utils/queries';
@@ -30,7 +30,8 @@ class Login extends React.Component{
         showRegister:false,
         showLostPassword:false,
         argsSignup:{},
-        errorSignup:[]
+        errorSignup:[],
+        errorSignin:[]
     }
     showRegister =(e)=>{
         e.preventDefault();
@@ -40,8 +41,19 @@ class Login extends React.Component{
         e.preventDefault();
         this.setState({showLogin:true,showRegister:false,showLostPassword:false});
     }
-    handleLogin=(e,args)=>{
+    handleLogin = async (ev, args)=>{
         console.log(args);
+        const response = await this.props.login({
+          variables: args
+        })
+        const {errors,success,token}=response.data.login
+        if(!success){
+           
+            this.setState({errorSignin:errors})
+        }else{
+            localStorage.setItem('token',token);
+            this.props.history.push("/");
+        }
     }
     handleRegister= async(e,args)=>{
         const response = await this.props.mutate ({
@@ -80,4 +92,7 @@ class Login extends React.Component{
         )
     }
 }
-export default graphql(queries.mutation.createUser) (Login);
+export default compose(
+    graphql(queries.mutation.login,{name:'login'}),
+    graphql(queries.mutation.createUser,{name:'create'})
+)(Login)
