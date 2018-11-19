@@ -1,11 +1,10 @@
 import React from 'react';
-import {Divider, Form, Button, Icon} from 'semantic-ui-react';
-export default ({styles,handleClick,handleSubmit})=>{
+import {Divider, Form, Button, Icon, Message} from 'semantic-ui-react';
+import _find from 'lodash';
 
-    const args = {}
-    const handleChange = (e,input)=>{
-        args[input.name]=input.value
-    }
+
+export default ({styles,handleClick,handleSubmit, handleChange,args,errors})=>{
+
     return (
         <div>
             <div style={styles.box}>
@@ -16,12 +15,23 @@ export default ({styles,handleClick,handleSubmit})=>{
                 </Button>
                 <Divider horizontal inverted> O </Divider>
                 <Form.Field>
-                    <Form.Input placeholder="username" icon={<Icon name="check circle outline" color="red" size='large'  />} name="username" onChange={handleChange}/>
+                    <Form.Input placeholder="username" 
+                        icon={!errors.length?null: _find(errors,{path:'username'})?<Icon name="remove circle" color="red" size='large'/>
+                                :<Icon name="check circle outline" color="green" size='large'/>} 
+                        name="username" onChange={handleChange}/>
                 </Form.Field>
                 <Form.Field>
-                    <Form.Input type='password' placeholder='Password' icon={<Icon name="check circle outline" color="red" size='large'  />} name="password" onChange={handleChange}/>
+                    <Form.Input type='password' placeholder='Password' 
+                       icon={!errors.length?null: _find(errors,{path:'password'})?<Icon name="remove circle" color="red" size='large'/>
+                       :<Icon name="check circle outline" color="green" size='large'/>} 
+                        name="password" onChange={handleChange}/>
                 </Form.Field>
-                <Button type='submit' fluid primary>Register</Button>
+                <Button type='submit' fluid primary disabled={!args.username || !args.password}>Register</Button>
+                {
+                    errors.length?
+                    <Message negative header="Los siguientes errores:" list={errors.map(error=>`[${error.path}] ${error.message}`)}/>
+                    :null
+                }
             </Form>
             </div>
             <div style={styles.box}>

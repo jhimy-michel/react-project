@@ -7,7 +7,13 @@ export default{
     mutation:{
         createUser:gpl`
         mutation($username:String!,$password:String!){
-            createUser(username:$username,password:$password)
+            createUser(username:$username,password:$password){
+                success
+                errors{
+                  path
+                  message
+                }
+            }
         } 
     `
     }

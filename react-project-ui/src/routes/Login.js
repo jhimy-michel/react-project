@@ -29,6 +29,8 @@ class Login extends React.Component{
         showLogin:true,
         showRegister:false,
         showLostPassword:false,
+        argsSignup:{},
+        errorSignup:[]
     }
     showRegister =(e)=>{
         e.preventDefault();
@@ -42,14 +44,23 @@ class Login extends React.Component{
         console.log(args);
     }
     handleRegister= async(e,args)=>{
-        console.log(args);
         const response = await this.props.mutate ({
             variables: args
         })
-        console.log('Graphql response:',response);
+        const {errors,success} = response.data.createUser;
+        if(!success){
+            this.setState({errorSignup:errors,success});
+        }else{
+            this.props.history.push("/")
+        }
+    }
+    handleChange = (e,input)=>{
+        const argsSignup = this.state.argsSignup
+        argsSignup[input.name]=input.value
+        this.setState({argsSignup})
     }
     render(){
-        const {showLogin,showRegister,showLostPassword} = this.state;
+        const {showLogin,showRegister,showLostPassword, argsSignup,errorSignup} = this.state;
         return(
                 <Grid verticalAlign="middle" centered columns={2} style={styles.grid} >
                     <Grid.Row>
@@ -57,8 +68,11 @@ class Login extends React.Component{
                             <Image fluid src='images/fondo.jpg' alt="fondo"/>
                         </Grid.Column>
                         <Grid.Column>
-                            {showLogin && <Signin styles={styles} handleClick={this.showRegister} handleSubmit={this.handleLogin}></Signin>}
-                            {showRegister && <Signup styles={styles} handleClick={this.showLogin} handleSubmit={this.handleRegister}></Signup>}
+                            {showLogin && 
+                                <Signin styles={styles} handleClick={this.showRegister} handleSubmit={this.handleLogin}/>}
+                            {showRegister && 
+                                <Signup styles={styles} handleClick={this.showLogin} handleSubmit={this.handleRegister} 
+                                        handleChange={this.handleChange} args={argsSignup} errors={errorSignup}/>}
                             {/*showLostPassword && <LostPassword styles={styles}></LostPassword>*/}
                         </Grid.Column>
                     </Grid.Row>
