@@ -1,5 +1,5 @@
 import bodyparser from 'body-parser';
-import {ApolloServer,graphqlExpress} from 'apollo-server-express';
+import {ApolloServer} from 'apollo-server-express';
 import {makeExecutableSchema} from 'graphql-tools';
 import  mongoose  from 'mongoose';
 import models from './models';
