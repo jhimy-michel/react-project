@@ -1,10 +1,12 @@
-import bodyparser from 'body-parser';
+//import bodyparser from 'body-parser';
 import {ApolloServer} from 'apollo-server-express';
 import {makeExecutableSchema} from 'graphql-tools';
 import  mongoose  from 'mongoose';
 import models from './models';
-mongoose.Promise = global.Promise;
+import auth from './auth';
 
+mongoose.Promise = global.Promise;
+import 'dotenv/config';
 const express = require('express');
 
 /* import typeDefs from './types/users';
@@ -17,8 +19,6 @@ const typeDefs = mergeTypes(fileLoader(path.join(__dirname,'./types')));
 const resolvers = mergeResolvers(fileLoader(path.join(__dirname,'./resolvers')));
 
 
-const PORT=4000;
-const SECRET ="asdascregihjnlasnuhcxni";
 const app = express();
 const schema = makeExecutableSchema({
     typeDefs,
@@ -26,16 +26,16 @@ const schema = makeExecutableSchema({
 });
 const server = new ApolloServer({
     schema,
-    context:{
+    context:(req)=>({
         models,
-        SECRET,
-        user:{
-            _id:1,username:"jhimy"
-        }
-    }
+        SECRET: process.env.SECRET,
+        user:req.user
+    })
 });
-server.applyMiddleware({app});
 
+app.use(auth.checkHeaders)
+
+server.applyMiddleware({app});
 /* app.use('/graphql',bodyparser.json(),graphqlExpress({
     schema,
     context:{
@@ -47,6 +47,7 @@ mongoose.connect('mongodb://juan:control123!@ds161620.mlab.com:61620/jmichel',{u
         console.log('halo!');
     }
 );
-app.listen({ port: PORT }, () =>
+
+app.listen({ port: process.env.PORT }, () =>
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
 )

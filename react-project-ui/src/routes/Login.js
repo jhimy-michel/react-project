@@ -48,15 +48,14 @@ class Login extends React.Component{
         })
         const {errors,success,token}=response.data.login
         if(!success){
-           
             this.setState({errorSignin:errors})
         }else{
             localStorage.setItem('token',token);
             this.props.history.push("/");
         }
     }
-    handleRegister= async(e,args)=>{
-        const response = await this.props.mutate ({
+    handleRegister = async (e,args) => {
+        const response = await this.props.createUser ({
             variables: args
         })
         const {errors,success} = response.data.createUser;
@@ -94,5 +93,5 @@ class Login extends React.Component{
 }
 export default compose(
     graphql(queries.mutation.login,{name:'login'}),
-    graphql(queries.mutation.createUser,{name:'create'})
+    graphql(queries.mutation.createUser,{name:'createUser'})
 )(Login)
